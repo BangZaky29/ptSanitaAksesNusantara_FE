@@ -1,12 +1,16 @@
 import type { ApiResponse, ApiImage, ApiTeamMember, ApiClient, ApiBusiness, ApiApproach } from "../types/types";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+// Ensure API_URL doesn't end with /api to avoid duplication with endpoints
+const RAW_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = RAW_URL.replace(/\/api\/?$/, "");
 
 // ============================
 // Generic fetch helper
 // ============================
 async function apiFetch<T>(endpoint: string): Promise<T> {
-  const res = await fetch(`${API_URL}${endpoint}`);
+  // Ensure endpoint starts with /api/
+  const apiEndpoint = endpoint.startsWith("/api") ? endpoint : `/api${endpoint}`;
+  const res = await fetch(`${API_URL}${apiEndpoint}`);
   if (!res.ok) {
     throw new Error(`API Error: ${res.status} ${res.statusText}`);
   }
