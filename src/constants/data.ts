@@ -1,10 +1,22 @@
 import type { ApiTeamMember } from "../types/types";
 
+// Environment variables for dynamic configuration
+const OFFICE_WHATSAPP = import.meta.env.VITE_OFFICE_WHATSAPP || "08137509570";
+const PHONE_SANDI = import.meta.env.VITE_PHONE_SANDI || "0851-6350-4614";
+const PHONE_FRADIYA = import.meta.env.VITE_PHONE_FRADIYA || "0857-7836-0514";
+const PHONE_YUANITA = import.meta.env.VITE_PHONE_YUANITA || "0896-7009-1880";
+const PHONE_DARUS = import.meta.env.VITE_PHONE_DARUS || "-";
+
 export const COMPANY_INFO = {
   name: "PT. Sanita Akses Nusantara",
   address: "Cibinong, Kab. Bogor",
-  whatsapp: "08137509570",
-  whatsappLink: "https://wa.me/628137509570",
+  whatsapp: OFFICE_WHATSAPP,
+  whatsappLink: `https://wa.me/${OFFICE_WHATSAPP.replace(/[^0-9]/g, "").replace(/^0/, "62")}?text=${encodeURIComponent("Halo PT Sanita Akses Nusantara, saya ingin bertanya lebih lanjut mengenai layanan Anda.")}`,
+  emails: {
+    sales: "sales@sanitaaksesnusantara.com",
+    cs: "cs@sanitaaksesnusantara.com",
+    director: "sandiIrawan@sanitaaksesnusantara.com",
+  }
 };
 
 export const STATS = [
@@ -25,8 +37,8 @@ export const TEAM_DATA: ApiTeamMember[] = [
     theme: "gold",
     image: "/people/(TRANSPARENT) Sandi_Irawan-DIREKTUR.webp",
     image_type: "transparant",
-    phone: "0851-6350-4614",
-    email: "ptsanitaaksesnusantara@gmail.com",
+    phone: PHONE_SANDI,
+    email: "sandiIrawan@sanitaaksesnusantara.com",
     website: "www.ptsanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
@@ -41,8 +53,8 @@ export const TEAM_DATA: ApiTeamMember[] = [
     theme: "gold",
     image: "/people/(TRANSPARENT) Fradiya_Daffa_Pangestu-KOMISARIS.webp",
     image_type: "transparant",
-    phone: "0857-7836-0514",
-    email: "ptsanitaaksesnusantara@gmail.com",
+    phone: PHONE_FRADIYA,
+    email: "cs@sanitaaksesnusantara.com",
     website: "www.ptsanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
@@ -57,8 +69,8 @@ export const TEAM_DATA: ApiTeamMember[] = [
     theme: "gold",
     image: "/people/(TRANSPARENT) Wahyuning_Yuanita_S-GENERAL-MANAGER.webp",
     image_type: "transparant",
-    phone: "0896-7009-1880",
-    email: "ptsanitaaksesnusantara@gmail.com",
+    phone: PHONE_YUANITA,
+    email: "cs@sanitaaksesnusantara.com",
     website: "www.ptsanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
@@ -73,8 +85,8 @@ export const TEAM_DATA: ApiTeamMember[] = [
     theme: "gold",
     image: "/people/(TRANSPARENT) Darus_Salam-KEPALA-PRODUKSI.webp",
     image_type: "transparant",
-    phone: "-",
-    email: "ptsanitaaksesnusantara@gmail.com",
+    phone: PHONE_DARUS,
+    email: "sales@sanitaaksesnusantara.com",
     website: "www.ptsanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   }

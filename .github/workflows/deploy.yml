@@ -24,7 +24,12 @@ jobs:
       - name: Build Project
         run: npm run build
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }} # Ini bakal narik dari GitHub Secrets
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_OFFICE_WHATSAPP: ${{ secrets.VITE_OFFICE_WHATSAPP }}
+          VITE_PHONE_SANDI: ${{ secrets.VITE_PHONE_SANDI }}
+          VITE_PHONE_FRADIYA: ${{ secrets.VITE_PHONE_FRADIYA }}
+          VITE_PHONE_YUANITA: ${{ secrets.VITE_PHONE_YUANITA }}
+          VITE_PHONE_DARUS: ${{ secrets.VITE_PHONE_DARUS }}
         # Jika lu pakai Vite, hasilnya ada di folder 'dist'
 
       - name: Deploy to FTP

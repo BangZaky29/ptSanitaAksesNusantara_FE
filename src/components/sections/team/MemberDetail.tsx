@@ -16,104 +16,141 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
     : "bg-slate-100";
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-[85vh] md:h-[600px] bg-white md:rounded-2xl shadow-2xl overflow-hidden relative border border-slate-100">
+    <div className="flex flex-col md:flex-row w-full h-[90vh] md:h-[650px] max-h-[95vh] bg-white md:rounded-2xl shadow-2xl overflow-hidden relative border border-slate-100">
       <button 
         onClick={onClose}
-        className="absolute top-4 right-4 md:top-6 md:right-6 z-20 w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors"
+        className="absolute top-4 right-4 md:top-6 md:right-6 z-30 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md md:bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors shadow-sm"
       >
         <X size={20} className="text-primary" />
       </button>
 
-      {/* Left side (Card shape) */}
+      {/* Left side (Image / Card shape) */}
       <motion.div 
         layoutId={`${layoutIdPrefix}-${member.member_id}-container`}
-        className={`w-full md:w-[35%] h-[40vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform`}
+        className={`w-full md:w-[40%] h-[38vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform overflow-hidden`}
       >
-        {/* Soft background glow removed */}
+        {/* Animated Image with better scaling for mobile to hide background text */}
         <motion.img 
           layoutId={`${layoutIdPrefix}-${member.member_id}-image`}
           src={member.image} 
           alt={member.name} 
-          className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[110%] max-w-none ${member.image_type === 'transparant' ? 'object-contain object-bottom' : 'object-cover object-center'} transform-gpu will-change-transform`} 
+          className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[95%] md:h-[110%] max-w-none ${
+            member.image_type === 'transparant' 
+              ? 'object-contain object-bottom scale-125 md:scale-100' 
+              : 'object-cover object-center'
+          } transform-gpu will-change-transform origin-bottom`} 
         />
+        
+        {/* Gradient overlay for smoother transition */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent md:hidden pointer-events-none" />
+
         <motion.div 
           layoutId={`${layoutIdPrefix}-${member.member_id}-vertical-name`}
           className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block"
         >
-          <span className={`writing-vertical-rl rotate-180 font-display font-bold text-5xl tracking-widest uppercase ${isNavy ? 'text-white/10' : 'text-primary/10'}`}>
+          <span className={`writing-vertical-rl rotate-180 font-display font-bold text-5xl lg:text-6xl tracking-widest uppercase ${isNavy ? 'text-white/10' : 'text-primary/10'}`}>
             {member.shortName}
           </span>
         </motion.div>
         
-        {/* Animated Role Badge */}
+        {/* Animated Role Badge - Adjusted for mobile visibility */}
         <motion.div 
           layoutId={`${layoutIdPrefix}-${member.member_id}-role`}
-          className={`absolute bottom-6 left-1/2 -translate-x-1/2 px-8 py-2.5 rounded-lg w-max text-center ${isNavy ? 'bg-primary text-white border-transparent' : 'bg-white text-primary border-slate-200'} shadow-sm border`}
+          className={`absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 px-6 md:px-8 py-2 md:py-3 rounded-xl w-max text-center ${
+            isNavy ? 'bg-primary text-white border-white/10' : 'bg-white text-primary border-slate-200'
+          } shadow-xl border backdrop-blur-sm z-10`}
         >
-          <span className="text-sm font-bold tracking-widest uppercase">{member.role}</span>
+          <span className="text-[10px] md:text-xs font-black tracking-[0.2em] uppercase">{member.role}</span>
         </motion.div>
       </motion.div>
 
       {/* Right side (Content) */}
       <motion.div 
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: 50, transition: { duration: 0.2 } }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
         transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
-        className="p-6 md:p-10 lg:p-14 flex flex-col justify-center flex-1 overflow-y-auto"
+        className="p-6 md:p-12 lg:p-16 flex flex-col flex-1 overflow-y-auto scrollbar-hide"
       >
-        <h3 className="font-display font-bold text-3xl md:text-4xl text-primary mb-2">{member.name}</h3>
-        <p className="text-accent font-bold uppercase tracking-widest text-sm mb-6 md:mb-10">{member.role}</p>
+        <div className="mb-6 md:mb-8">
+          <h3 className="font-display font-bold text-3xl md:text-5xl text-primary mb-2 leading-tight">{member.name}</h3>
+          <p className="text-accent font-bold uppercase tracking-[0.3em] text-[10px] md:text-xs">{member.role}</p>
+        </div>
 
-        <div className="relative mb-6">
-          <QuoteIcon className="text-slate-100 absolute -top-4 -left-4 w-10 h-10 md:w-12 md:h-12 -z-10" />
-          <p className="text-lg md:text-xl text-slate-700 italic font-medium leading-relaxed">
+        <div className="relative mb-6 md:mb-10">
+          <QuoteIcon className="text-accent/10 absolute -top-6 -left-6 w-12 h-12 md:w-16 md:h-16 -z-10" />
+          <p className="text-base md:text-xl text-slate-700 italic font-medium leading-relaxed">
             "{member.quote}"
           </p>
         </div>
 
-        <div className="w-12 h-1 bg-accent mb-6 shrink-0" />
+        <div className="w-16 h-1.5 bg-accent/20 rounded-full mb-6 md:mb-8 shrink-0" />
 
-        <p className="text-slate-500 leading-relaxed text-sm md:text-base mb-8">
+        <p className="text-slate-500 leading-relaxed text-sm md:text-lg mb-10 font-normal">
           {member.bio}
         </p>
 
-        {/* Contact Info Section */}
-        <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 pt-8 border-t border-slate-100">
-          {member.phone && member.phone !== "-" && (
-            <div className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                <Phone size={14} />
+        {/* Contact Info Section - Premium Interaction Grid */}
+        <div className="mt-auto pt-8 border-t border-slate-100">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+            {member.phone && member.phone !== "-" && (
+              <a 
+                href={`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Halo ${member.name}, saya tertarik untuk berdiskusi mengenai layanan PT Sanita Akses Nusantara.`)}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white transition-all shrink-0">
+                  <Phone size={16} />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">WhatsApp</span>
+                  <span className="text-sm text-slate-700 font-bold">{member.phone}</span>
+                </div>
+              </a>
+            )}
+            {member.email && (
+              <a 
+                href={`mailto:${member.email}`}
+                className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white transition-all shrink-0">
+                  <Mail size={16} />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Email</span>
+                  <span className="text-sm text-slate-700 font-bold truncate">{member.email}</span>
+                </div>
+              </a>
+            )}
+            {member.website && (
+              <a 
+                href={`https://${member.website}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
+              >
+                <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-primary group-hover:bg-accent group-hover:text-white transition-all shrink-0">
+                  <Globe size={16} />
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Website</span>
+                  <span className="text-sm text-slate-700 font-bold truncate">{member.website}</span>
+                </div>
+              </a>
+            )}
+            {member.address && (
+              <div className="flex items-start gap-4 p-3 rounded-xl bg-slate-50 border border-transparent col-span-full">
+                <div className="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center text-primary shrink-0">
+                  <MapPin size={16} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Location</span>
+                  <span className="text-[11px] text-slate-600 font-medium leading-relaxed">{member.address}</span>
+                </div>
               </div>
-              <span className="text-sm text-slate-600 font-semibold">{member.phone}</span>
-            </div>
-          )}
-          {member.email && (
-            <div className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                <Mail size={14} />
-              </div>
-              <span className="text-sm text-slate-600 font-semibold truncate">{member.email}</span>
-            </div>
-          )}
-          {member.website && (
-            <div className="flex items-center gap-3 group">
-              <div className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                <Globe size={14} />
-              </div>
-              <span className="text-sm text-slate-600 font-semibold">{member.website}</span>
-            </div>
-          )}
-          {member.address && (
-            <div className="flex items-start gap-3 group col-span-full">
-              <div className="w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 mt-0.5 shrink-0">
-                <MapPin size={14} />
-              </div>
-              <span className="text-[11px] text-slate-500 leading-relaxed max-w-sm font-medium">
-                {member.address}
-              </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

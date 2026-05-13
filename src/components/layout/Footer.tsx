@@ -41,11 +41,32 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-3 text-sm text-slate-300">
               <Phone className="text-accent shrink-0" size={18} />
-              <span>{COMPANY_INFO.whatsapp}</span>
+              <a href={COMPANY_INFO.whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                {COMPANY_INFO.whatsapp}
+              </a>
             </li>
-            <li className="flex items-center gap-3 text-sm text-slate-300">
-              <Mail className="text-accent shrink-0" size={18} />
-              <span>info@sanitaakses.com</span>
+            <li className="flex items-start gap-3 text-sm text-slate-300">
+              <Mail className="text-accent shrink-0 mt-1" size={18} />
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-wider text-accent/60 font-bold">Sales & Marketing</span>
+                  <a href={`mailto:${COMPANY_INFO.emails.sales}`} className="hover:text-accent transition-colors">
+                    {COMPANY_INFO.emails.sales}
+                  </a>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-wider text-accent/60 font-bold">Customer Service</span>
+                  <a href={`mailto:${COMPANY_INFO.emails.cs}`} className="hover:text-accent transition-colors">
+                    {COMPANY_INFO.emails.cs}
+                  </a>
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] uppercase tracking-wider text-accent/60 font-bold">Direct Inquiry</span>
+                  <a href={`mailto:${COMPANY_INFO.emails.director}`} className="hover:text-accent transition-colors">
+                    {COMPANY_INFO.emails.director}
+                  </a>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
