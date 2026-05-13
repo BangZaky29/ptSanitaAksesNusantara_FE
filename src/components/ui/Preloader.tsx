@@ -7,7 +7,7 @@ export default function Preloader() {
 
   useEffect(() => {
     // Duration: 5 seconds
-    const duration = 5000;
+    const duration = 3000;
     const intervalTime = 50; // Update every 50ms
     const step = (intervalTime / duration) * 100;
 
@@ -62,22 +62,22 @@ export default function Preloader() {
                 src="/logo-sanita-akses-nusantara.webp"
                 alt="Logo PT Sanita Akses Nusantara"
                 className="w-full h-full object-contain"
-                animate={{ 
+                animate={{
                   filter: ["brightness(1)", "brightness(1.2)", "brightness(1)"],
                 }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               />
-              
+
               {/* Shine Effect */}
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/30 to-transparent -translate-x-full"
                 animate={{ translateX: ["100%", "-100%"] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "linear", delay: 1 }}
               />
             </motion.div>
-            
+
             {/* Pulsing ring around logo */}
-            <motion.div 
+            <motion.div
               className="absolute inset-[-10px] border-2 border-accent/20 rounded-2xl"
               animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.5, 0.2] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -101,14 +101,14 @@ export default function Preloader() {
 
           {/* Progress Bar Container */}
           <div className="w-64 md:w-80 h-1 bg-white/10 rounded-full overflow-hidden relative mb-4">
-            <motion.div 
+            <motion.div
               className="h-full bg-accent shadow-[0_0_10px_#D4AF37]"
               style={{ width: `${progress}%` }}
               transition={{ ease: "linear" }}
             />
           </div>
-          
-          <motion.span 
+
+          <motion.span
             className="text-[10px] font-bold text-accent/80 uppercase tracking-widest"
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 1, repeat: Infinity }}

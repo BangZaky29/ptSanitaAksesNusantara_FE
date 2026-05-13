@@ -27,41 +27,55 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
       {/* Left side (Image / Card shape) */}
       <motion.div 
         layoutId={`${layoutIdPrefix}-${member.member_id}-container`}
-        className={`w-full md:w-[40%] h-[38vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform overflow-hidden`}
+        className={`w-full md:w-[45%] h-[48vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform overflow-hidden`}
       >
-        {/* Animated Image with better scaling for mobile to hide background text */}
+        {/* Animated Image - Optimized for Mobile to prevent head clipping */}
         <motion.img 
           layoutId={`${layoutIdPrefix}-${member.member_id}-image`}
           src={member.image} 
           alt={member.name} 
-          className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[95%] md:h-[110%] max-w-none ${
+          className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[90%] md:h-[105%] max-w-none ${
             member.image_type === 'transparant' 
-              ? 'object-contain object-bottom scale-125 md:scale-100' 
+              ? 'object-contain object-bottom scale-110 md:scale-100' 
               : 'object-cover object-center'
-          } transform-gpu will-change-transform origin-bottom`} 
+          } transform-gpu will-change-transform origin-bottom z-10`} 
         />
         
         {/* Gradient overlay for smoother transition */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent md:hidden pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent md:hidden pointer-events-none z-10" />
 
         <motion.div 
           layoutId={`${layoutIdPrefix}-${member.member_id}-vertical-name`}
-          className="absolute right-4 top-1/2 -translate-y-1/2 hidden md:block"
+          className="absolute right-6 top-1/2 -translate-y-1/2 hidden md:block z-0"
         >
-          <span className={`writing-vertical-rl rotate-180 font-display font-bold text-5xl lg:text-6xl tracking-widest uppercase ${isNavy ? 'text-white/10' : 'text-primary/10'}`}>
+          <span className={`writing-vertical-rl rotate-180 font-display font-bold text-5xl lg:text-7xl tracking-widest uppercase ${isNavy ? 'text-white/10' : 'text-primary/10'}`}>
             {member.shortName}
           </span>
         </motion.div>
         
-        {/* Animated Role Badge - Adjusted for mobile visibility */}
+        {/* Desktop Floating Badge */}
         <motion.div 
           layoutId={`${layoutIdPrefix}-${member.member_id}-role`}
-          className={`absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 px-6 md:px-8 py-2 md:py-3 rounded-xl w-max text-center ${
-            isNavy ? 'bg-primary text-white border-white/10' : 'bg-white text-primary border-slate-200'
-          } shadow-xl border backdrop-blur-sm z-10`}
+          className={`absolute bottom-8 left-8 p-1 rounded-xl w-max hidden md:block z-20`}
         >
-          <span className="text-[10px] md:text-xs font-black tracking-[0.2em] uppercase">{member.role}</span>
+          <div className={`${
+            isNavy ? 'bg-primary/80 border-white/20' : 'bg-white/80 border-slate-200'
+          } backdrop-blur-md border shadow-2xl px-5 py-3 rounded-lg flex flex-col items-start gap-1`}>
+            <span className={`text-[10px] font-black tracking-[0.2em] uppercase ${isNavy ? 'text-white/60' : 'text-primary/60'}`}>
+              Member Of
+            </span>
+            <span className={`text-xs font-bold uppercase tracking-wider ${isNavy ? 'text-white' : 'text-primary'}`}>
+              PT SANITA AKSES
+            </span>
+          </div>
         </motion.div>
+
+        {/* Mobile Mini Badge - Minimalist to not cover the photo too much */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 md:hidden z-20">
+          <div className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-slate-200 shadow-lg">
+            <span className="text-[10px] font-black tracking-widest uppercase text-primary">{member.role}</span>
+          </div>
+        </div>
       </motion.div>
 
       {/* Right side (Content) */}

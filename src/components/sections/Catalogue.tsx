@@ -148,12 +148,23 @@ export default function Catalogue() {
           <p className="text-slate-500 mb-8 max-w-xl mx-auto italic">
             "Menyediakan berbagai pilihan peralatan industrial dengan standar kualitas tinggi untuk efisiensi operasional bisnis Anda."
           </p>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="px-12 py-4 bg-primary text-white font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
-          >
-            Buka Katalog Lengkap
-          </button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="w-full sm:w-auto px-12 py-4 bg-primary text-white font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+            >
+              Buka Katalog Lengkap
+            </button>
+            
+            <a
+              href="/COMPRO.pdf"
+              download="Company-Profile-Sanita-Akses-Nusantara.pdf"
+              className="w-full sm:w-auto px-12 py-4 bg-white border-2 border-primary text-primary font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2 hover:-translate-y-1"
+            >
+              Company Profile
+              <ArrowUpRight size={18} className="text-accent" />
+            </a>
+          </div>
         </motion.div>
 
         {/* Modal */}
