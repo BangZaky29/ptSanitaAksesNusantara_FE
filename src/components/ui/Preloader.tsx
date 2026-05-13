@@ -59,7 +59,7 @@ export default function Preloader() {
               className="relative z-10 w-48 h-48 md:w-56 md:h-56 bg-white p-8 rounded-2xl shadow-2xl flex items-center justify-center overflow-hidden"
             >
               <motion.img
-                src="/(TRANSPARENT) LOGO GAMBAR PT. SANITA AKSES NUSANTARA.png"
+                src="/(TRANSPARENT) LOGO GAMBAR PT. SANITA AKSES NUSANTARA.webp"
                 alt="Logo PT Sanita Akses Nusantara"
                 className="w-full h-full object-contain"
                 animate={{ 

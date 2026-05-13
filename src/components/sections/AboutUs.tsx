@@ -52,7 +52,7 @@ export default function AboutUs() {
               className="w-full aspect-[4/3] sm:aspect-[16/9] lg:aspect-[4/3] bg-primary/20 mb-10 overflow-hidden shadow-2xl relative"
             >
               <img 
-                src="/people/(TRANSPARENT) Sandi_Irawan-DIREKTUR.png"
+                src="/people/(TRANSPARENT) Sandi_Irawan-DIREKTUR.webp"
                 alt={`${content.name} - ${content.title}`} 
                 className="w-full h-full object-contain object-bottom transition-all duration-700 bg-primary/30"
               />
