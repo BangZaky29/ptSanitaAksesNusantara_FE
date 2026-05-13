@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import CatalogModal from "./CatalogModal";
+import { ButtonLoader } from "../ui/Loading";
 import { useCatalog } from "../../hooks/useCatalog";
 import { useFormattedName } from "../../hooks/useFormattedName";
 import { CardSkeleton } from "../ui/Skeleton";
@@ -11,6 +12,24 @@ export default function Catalogue() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { catalog, loading } = useCatalog();
   const { formatName } = useFormattedName();
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownloadCompro = () => {
+    setIsDownloading(true);
+    
+    // Simulate prep time for premium feel
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.href = '/COMPRO.pdf';
+      link.download = 'Company-Profile-Sanita-Akses-Nusantara.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Keep loading for a bit after click
+      setTimeout(() => setIsDownloading(false), 1000);
+    }, 1500);
+  };
 
   // Featured items (first 6)
   const featuredItems = catalog.slice(0, 6);
@@ -156,14 +175,23 @@ export default function Catalogue() {
               Buka Katalog Lengkap
             </button>
             
-            <a
-              href="/COMPRO.pdf"
-              download="Company-Profile-Sanita-Akses-Nusantara.pdf"
-              className="w-full sm:w-auto px-12 py-4 bg-white border-2 border-primary text-primary font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2 hover:-translate-y-1"
+            <button
+              onClick={handleDownloadCompro}
+              disabled={isDownloading}
+              className="w-full sm:w-auto px-12 py-4 bg-white border-2 border-primary text-primary font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
             >
-              Company Profile
-              <ArrowUpRight size={18} className="text-accent" />
-            </a>
+              {isDownloading ? (
+                <>
+                  Processing...
+                  <ButtonLoader className="text-accent" />
+                </>
+              ) : (
+                <>
+                  Company Profile
+                  <ArrowUpRight size={18} className="text-accent" />
+                </>
+              )}
+            </button>
           </div>
         </motion.div>
 

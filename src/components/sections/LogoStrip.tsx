@@ -5,9 +5,21 @@ import { useClients } from "../../hooks/useClients";
 export default function LogoStrip() {
   const { clients, loading } = useClients();
 
-  if (loading || clients.length === 0) return null;
+  // If loading, show a subtle pulse instead of nothing to avoid layout jump
+  if (loading) {
+    return (
+      <div className="py-12 border-y border-slate-50 bg-white flex items-center justify-center">
+        <div className="flex gap-12 animate-pulse opacity-20 grayscale">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-8 w-24 bg-slate-300 rounded-sm" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
-  // Duplikat array agar animasi looping terlihat mulus
+  if (clients.length === 0) return null;
+
   const duplicatedClients = [...clients, ...clients];
 
   return (

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTeam } from "../../../hooks/useTeam";
 import { TeamCard } from "./TeamCard";
 import { MemberDetail } from "./MemberDetail";
+import { CardSkeleton } from "../../ui/Skeleton";
 import type { ApiTeamMember } from "../../../types/types";
 
 export function TeamGrid() {
@@ -23,40 +24,50 @@ export function TeamGrid() {
     <div className="relative w-full overflow-hidden min-h-[500px]">
       <div className="relative">
         {/* Grid View - Always mounted to keep images in memory */}
-        <motion.div 
-          variants={{
-            hidden: { opacity: 0 },
-            show: {
-              opacity: (selectedId && !isMobile) ? 0 : 1,
-              transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2,
-                duration: 0.6,
-                ease: [0.4, 0, 0.2, 1]
+        {loading ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="bg-slate-50 p-6 rounded-sm border border-slate-100">
+                <CardSkeleton />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: (selectedId && !isMobile) ? 0 : 1,
+                transition: {
+                  staggerChildren: 0.1,
+                  delayChildren: 0.2,
+                  duration: 0.6,
+                  ease: [0.4, 0, 0.2, 1]
+                }
               }
-            }
-          }}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ${(selectedId && !isMobile) ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
-        >
-          {members.map((member) => (
-             <motion.div
-               key={member.member_id}
-               variants={{
-                 hidden: { opacity: 0, y: 20 },
-                 show: { opacity: 1, y: 0 }
-               }}
-             >
-               <TeamCard 
-                 member={member} 
-                 onClick={() => setSelectedId(member.member_id)} 
-                 layoutIdPrefix="team"
-               />
-             </motion.div>
-          ))}
-        </motion.div>
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ${(selectedId && !isMobile) ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'}`}
+          >
+            {members.map((member) => (
+               <motion.div
+                 key={member.member_id}
+                 variants={{
+                   hidden: { opacity: 0, y: 20 },
+                   show: { opacity: 1, y: 0 }
+                 }}
+               >
+                 <TeamCard 
+                   member={member} 
+                   onClick={() => setSelectedId(member.member_id)} 
+                   layoutIdPrefix="team"
+                 />
+               </motion.div>
+            ))}
+          </motion.div>
+        )}
 
         {/* Desktop Detail View Overlay */}
         <AnimatePresence>
