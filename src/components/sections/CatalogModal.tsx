@@ -4,6 +4,7 @@ import { X, ArrowUpRight } from "lucide-react";
 import Masonry from "react-masonry-css";
 import ImageLightbox from "../ui/ImageLightbox";
 import { useCatalog } from "../../hooks/useCatalog";
+import { SectionLoader } from "../ui/Loading";
 import { useFormattedName } from "../../hooks/useFormattedName";
 import { CardSkeleton } from "../ui/Skeleton";
 
@@ -87,8 +88,8 @@ export default function CatalogModal({ isOpen, onClose }: CatalogModalProps) {
 
               {/* Product Grid - Masonry */}
               {loading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                  {[...Array(6)].map((_, i) => <CardSkeleton key={i} />)}
+                <div className="w-full flex items-center justify-center py-32">
+                  <SectionLoader />
                 </div>
               ) : (
                 <Masonry

@@ -82,6 +82,13 @@ export default function Preloader() {
               animate={{ scale: [1, 1.05, 1], opacity: [0.2, 0.5, 0.2] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
+            
+            {/* NEW: Rotating Sprint Spinner */}
+            <motion.div
+              className="absolute inset-[-20px] border-t-2 border-r-2 border-accent/40 rounded-full"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            />
           </div>
 
           {/* Company Name */}

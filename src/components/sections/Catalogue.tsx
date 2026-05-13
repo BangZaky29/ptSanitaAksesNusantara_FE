@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "motion/react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import CatalogModal from "./CatalogModal";
-import { ButtonLoader } from "../ui/Loading";
+import { ButtonLoader, SectionLoader } from "../ui/Loading";
 import { useCatalog } from "../../hooks/useCatalog";
 import { useFormattedName } from "../../hooks/useFormattedName";
 import { CardSkeleton } from "../ui/Skeleton";
@@ -84,8 +84,8 @@ export default function Catalogue() {
 
         {/* Featured Grid - Masonry */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[...Array(3)].map((_, i) => <CardSkeleton key={i} />)}
+          <div className="w-full flex items-center justify-center py-20">
+            <SectionLoader />
           </div>
         ) : (
           <motion.div

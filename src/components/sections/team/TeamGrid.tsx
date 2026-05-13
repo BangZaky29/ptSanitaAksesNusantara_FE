@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useTeam } from "../../../hooks/useTeam";
 import { TeamCard } from "./TeamCard";
 import { MemberDetail } from "./MemberDetail";
-import { CardSkeleton } from "../../ui/Skeleton";
+import { SectionLoader } from "../../ui/Loading";
 import type { ApiTeamMember } from "../../../types/types";
 
 export function TeamGrid() {
@@ -25,12 +25,8 @@ export function TeamGrid() {
       <div className="relative">
         {/* Grid View - Always mounted to keep images in memory */}
         {loading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-slate-50 p-6 rounded-sm border border-slate-100">
-                <CardSkeleton />
-              </div>
-            ))}
+          <div className="w-full flex items-center justify-center min-h-[400px]">
+             <SectionLoader />
           </div>
         ) : (
           <motion.div 
