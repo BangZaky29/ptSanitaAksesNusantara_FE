@@ -11,13 +11,13 @@ interface MemberDetailProps {
 
 export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailProps) {
   const isNavy = member.theme === "navy";
-  const cardBg = isNavy 
-    ? "bg-primary" 
+  const cardBg = isNavy
+    ? "bg-primary"
     : "bg-slate-100";
 
   return (
     <div className="flex flex-col md:flex-row w-full h-[90vh] md:h-[650px] max-h-[95vh] bg-white md:rounded-2xl shadow-2xl overflow-hidden relative border border-slate-100">
-      <button 
+      <button
         onClick={onClose}
         className="absolute top-4 right-4 md:top-6 md:right-6 z-30 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md md:bg-slate-100 flex items-center justify-center hover:bg-slate-200 transition-colors shadow-sm"
       >
@@ -25,42 +25,40 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
       </button>
 
       {/* Left side (Image / Card shape) */}
-      <motion.div 
+      <motion.div
         layoutId={`${layoutIdPrefix}-${member.member_id}-container`}
-        className={`w-full md:w-[45%] h-[48vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform overflow-hidden`}
+        className={`w-full md:w-[42%] lg:w-[35%] h-[48vh] md:h-full relative ${cardBg} flex-shrink-0 origin-left transform-gpu will-change-transform overflow-hidden`}
       >
-        {/* Animated Image - Optimized for Mobile to prevent head clipping */}
-        <motion.img 
+        {/* Animated Image - Sesuaikan agar tidak terlalu zoom */}
+        <motion.img
           layoutId={`${layoutIdPrefix}-${member.member_id}-image`}
-          src={member.image} 
-          alt={member.name} 
-          className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-[90%] md:h-[105%] max-w-none ${
-            member.image_type === 'transparant' 
-              ? 'object-contain object-bottom scale-110 md:scale-100' 
-              : 'object-cover object-center'
-          } transform-gpu will-change-transform origin-bottom z-10`} 
+          src={member.image}
+          alt={member.name}
+          className={`absolute bottom-30 left-1/2 -translate-x-1/2 w-auto h-[30%] md:h-[65%] max-w-none ${member.image_type === 'transparant'
+            ? 'object-contain object-bottom'
+            : 'object-contain object-top pt-10' // UBAH: Gunakan contain dan geser ke atas
+            } transform-gpu will-change-transform origin-bottom z-10 scale-100`}
         />
-        
+
         {/* Gradient overlay for smoother transition */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent md:hidden pointer-events-none z-10" />
 
-        <motion.div 
+        <motion.div
           layoutId={`${layoutIdPrefix}-${member.member_id}-vertical-name`}
-          className="absolute right-6 top-1/2 -translate-y-1/2 hidden md:block z-0"
+          className="absolute right-4 lg:right-10 top-1/2 -translate-y-1/2 hidden md:block z-0"
         >
           <span className={`writing-vertical-rl rotate-180 font-display font-bold text-5xl lg:text-7xl tracking-widest uppercase ${isNavy ? 'text-white/10' : 'text-primary/10'}`}>
             {member.shortName}
           </span>
         </motion.div>
-        
+
         {/* Desktop Floating Badge */}
-        <motion.div 
+        <motion.div
           layoutId={`${layoutIdPrefix}-${member.member_id}-role`}
           className={`absolute bottom-8 left-8 p-1 rounded-xl w-max hidden md:block z-20`}
         >
-          <div className={`${
-            isNavy ? 'bg-primary/80 border-white/20' : 'bg-white/80 border-slate-200'
-          } backdrop-blur-md border shadow-2xl px-5 py-3 rounded-lg flex flex-col items-start gap-1`}>
+          <div className={`${isNavy ? 'bg-primary/80 border-white/20' : 'bg-white/80 border-slate-200'
+            } backdrop-blur-md border shadow-2xl px-5 py-3 rounded-lg flex flex-col items-start gap-1`}>
             <span className={`text-[10px] font-black tracking-[0.2em] uppercase ${isNavy ? 'text-white/60' : 'text-primary/60'}`}>
               Member Of
             </span>
@@ -79,7 +77,7 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
       </motion.div>
 
       {/* Right side (Content) */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
@@ -108,9 +106,9 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
         <div className="mt-auto pt-8 border-t border-slate-100">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
             {member.phone && member.phone !== "-" && (
-              <a 
-                href={`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Halo ${member.name}, saya tertarik untuk berdiskusi mengenai layanan PT Sanita Akses Nusantara.`)}`} 
-                target="_blank" 
+              <a
+                href={`https://wa.me/${member.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Halo ${member.name}, saya tertarik untuk berdiskusi mengenai layanan PT Sanita Akses Nusantara.`)}`}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
               >
@@ -124,7 +122,7 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
               </a>
             )}
             {member.email && (
-              <a 
+              <a
                 href={`mailto:${member.email}`}
                 className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
               >
@@ -138,9 +136,9 @@ export function MemberDetail({ member, onClose, layoutIdPrefix }: MemberDetailPr
               </a>
             )}
             {member.website && (
-              <a 
-                href={`https://${member.website}`} 
-                target="_blank" 
+              <a
+                href={`https://${member.website}`}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-3 rounded-xl bg-slate-50 border border-transparent hover:border-accent/30 hover:bg-white transition-all group"
               >
