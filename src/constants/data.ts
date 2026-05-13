@@ -9,7 +9,7 @@ const PHONE_DARUS = import.meta.env.VITE_PHONE_DARUS || "-";
 
 export const COMPANY_INFO = {
   name: "PT. Sanita Akses Nusantara",
-  address: "Cibinong, Kab. Bogor",
+  address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916",
   whatsapp: OFFICE_WHATSAPP,
   whatsappLink: `https://wa.me/${OFFICE_WHATSAPP.replace(/[^0-9]/g, "").replace(/^0/, "62")}?text=${encodeURIComponent("Halo PT Sanita Akses Nusantara, saya ingin bertanya lebih lanjut mengenai layanan Anda.")}`,
   emails: {
@@ -39,7 +39,7 @@ export const TEAM_DATA: ApiTeamMember[] = [
     image_type: "transparant",
     phone: PHONE_SANDI,
     email: "sandiIrawan@sanitaaksesnusantara.com",
-    website: "www.ptsanitaaksesnusantara.com",
+    website: "www.sanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
   {
@@ -55,7 +55,7 @@ export const TEAM_DATA: ApiTeamMember[] = [
     image_type: "transparant",
     phone: PHONE_FRADIYA,
     email: "cs@sanitaaksesnusantara.com",
-    website: "www.ptsanitaaksesnusantara.com",
+    website: "www.sanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
   {
@@ -71,7 +71,7 @@ export const TEAM_DATA: ApiTeamMember[] = [
     image_type: "transparant",
     phone: PHONE_YUANITA,
     email: "cs@sanitaaksesnusantara.com",
-    website: "www.ptsanitaaksesnusantara.com",
+    website: "www.sanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   },
   {
@@ -87,7 +87,7 @@ export const TEAM_DATA: ApiTeamMember[] = [
     image_type: "transparant",
     phone: PHONE_DARUS,
     email: "sales@sanitaaksesnusantara.com",
-    website: "www.ptsanitaaksesnusantara.com",
+    website: "www.sanitaaksesnusantara.com",
     address: "Perumahan Pabuaran Indah, Jl. Anggur 4 Blok J4 No. 3, Kel. Pabuaran Mekar, Kec. Cibinong, Kab. Bogor. 16916"
   }
 ];
