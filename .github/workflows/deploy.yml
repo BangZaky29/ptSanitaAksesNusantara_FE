@@ -1,0 +1,35 @@
+name: Build and Deploy FE
+
+on:
+  push:
+    branches:
+      - main  # Pastikan ini nama branch utama lu
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+        # Jika lu pakai Vite, hasilnya ada di folder 'dist'
+
+      - name: Deploy to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/  # Sesuaikan dengan folder hasil build lu
+          server-dir: ./      # Karena tadi lu set FTP Directory ke public_html, isi ./ saja
