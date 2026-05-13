@@ -23,6 +23,8 @@ jobs:
 
       - name: Build Project
         run: npm run build
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }} # Ini bakal narik dari GitHub Secrets
         # Jika lu pakai Vite, hasilnya ada di folder 'dist'
 
       - name: Deploy to FTP
