@@ -1,0 +1,36 @@
+name: Deploy Website to Rumahweb
+
+on:
+  push:
+    branches:
+      - main  # Ganti jika nama branch utama lu bukan main
+
+jobs:
+  web-deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v3
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install Dependencies
+      run: npm install
+
+    - name: Build Project
+      run: npm run build
+      env:
+        VITE_API_URL: https://api.sanitaaksesnusantara.com/api # Sesuaikan variable env lu
+
+    - name: Sync Files to Server
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        server: ${{ secrets.FTP_SERVER }}
+        username: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ./dist/  # Folder hasil build lu
+        server-dir: ./public_html/ # Folder tujuan di cPanel
