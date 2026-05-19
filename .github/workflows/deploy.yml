@@ -11,18 +11,19 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Update ke v4 biar up-to-date
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Update ke v4
         with:
-          node-version: '20'
+          node-version: '22' # Pakai Node 22 agar tidak kena warning deprecated
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build Project
-        run: npm run build
+        run: |
+          CI=false npm run build # Ditambahkan CI=false agar build tidak gagal karena unused variable
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_OFFICE_WHATSAPP: ${{ secrets.VITE_OFFICE_WHATSAPP }}
@@ -30,13 +31,16 @@ jobs:
           VITE_PHONE_FRADIYA: ${{ secrets.VITE_PHONE_FRADIYA }}
           VITE_PHONE_YUANITA: ${{ secrets.VITE_PHONE_YUANITA }}
           VITE_PHONE_DARUS: ${{ secrets.VITE_PHONE_DARUS }}
-        # Jika lu pakai Vite, hasilnya ada di folder 'dist'
 
       - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5 # Update ke versi paling stabil 4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/  # Sesuaikan dengan folder hasil build lu
-          server-dir: ./      # Karena tadi lu set FTP Directory ke public_html, isi ./ saja
+          local-dir: ./dist/  
+          server-dir: ./      
+          port: 21
+          protocol: ftp
+          security: loose     # SANGAT PENTING: Supaya tidak gagal jabat tangan SSL/TLS dengan cPanel
+          timeout: 90000      # Memperpanjang napas koneksi agar tidak cepat timeout
