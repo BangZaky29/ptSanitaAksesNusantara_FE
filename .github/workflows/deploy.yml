@@ -32,15 +32,12 @@ jobs:
           VITE_PHONE_YUANITA: ${{ secrets.VITE_PHONE_YUANITA }}
           VITE_PHONE_DARUS: ${{ secrets.VITE_PHONE_DARUS }}
 
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5 # Update ke versi paling stabil 4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/  
-          server-dir: ./      
-          port: 21
-          protocol: ftp
-          security: loose     # SANGAT PENTING: Supaya tidak gagal jabat tangan SSL/TLS dengan cPanel
-          timeout: 90000      # Memperpanjang napas koneksi agar tidak cepat timeout
+      - name: Deploy via Secure HTTPS POST
+        run: |
+          cd dist
+          zip -r ../deploy.zip .
+          cd ..
+          curl -X POST \
+            -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN || 'sanita_akses_nusantara_deploy_2026' }}" \
+            -F "file=@deploy.zip" \
+            https://sanitaaksesnusantara.com/deploy.php
