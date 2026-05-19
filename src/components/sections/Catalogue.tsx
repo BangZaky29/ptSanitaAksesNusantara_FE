@@ -16,7 +16,7 @@ export default function Catalogue() {
 
   const handleDownloadCompro = () => {
     setIsDownloading(true);
-    
+
     // Simulate prep time for premium feel
     setTimeout(() => {
       const link = document.createElement('a');
@@ -25,7 +25,7 @@ export default function Catalogue() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Keep loading for a bit after click
       setTimeout(() => setIsDownloading(false), 1000);
     }, 1500);
@@ -43,11 +43,11 @@ export default function Catalogue() {
   return (
     <section id="catalogue" className="py-32 bg-white relative">
       <div className="max-w-7xl mx-auto px-6">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl">
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -55,25 +55,25 @@ export default function Catalogue() {
             >
               Our Catalogue
             </motion.h2>
-            <motion.h3 
+            <motion.h3
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="font-display text-4xl md:text-5xl font-bold text-primary"
             >
-              Professional Industrial <br /> 
+              Professional Industrial <br />
               Equipment Solutions.
             </motion.h3>
           </div>
-          
+
           <motion.button
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
             onClick={() => setIsModalOpen(true)}
-            className="group inline-flex items-center gap-3 text-primary font-bold text-sm uppercase tracking-widest hover:text-accent transition-colors"
+            className="group inline-flex items-center gap-3 text-primary font-bold text-sm cursor-pointer uppercase tracking-widest hover:text-accent transition-colors"
           >
             Lihat Katalog Lengkap
             <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover:border-accent group-hover:bg-accent group-hover:text-white transition-all">
@@ -120,16 +120,16 @@ export default function Catalogue() {
                     className="group relative overflow-hidden bg-slate-50 rounded-sm mb-8 border border-slate-100"
                   >
                     <div className="relative aspect-square overflow-hidden">
-                      <img 
-                        src={item.webp_url || item.full_url} 
-                        alt={displayName} 
+                      <img
+                        src={item.webp_url || item.full_url}
+                        alt={displayName}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-primary/20 group-hover:bg-primary/40 transition-colors duration-500" />
-                      
+
                       {/* View Details Overlay */}
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button 
+                        <button
                           onClick={() => setIsModalOpen(true)}
                           className="bg-white text-primary px-6 py-3 rounded-sm font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-accent hover:text-white transition-colors"
                         >
@@ -137,7 +137,7 @@ export default function Catalogue() {
                         </button>
                       </div>
                     </div>
-  
+
                     <div className="p-6 bg-white">
                       <div className="flex items-center justify-between gap-4">
                         <div>
@@ -158,7 +158,7 @@ export default function Catalogue() {
         )}
 
         {/* CTA Footer */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -170,15 +170,15 @@ export default function Catalogue() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full sm:w-auto px-12 py-4 bg-primary text-white font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+              className="w-full sm:w-auto px-12 py-4 bg-primary text-white font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-primary/90 transition-all shadow-lg cursor-pointer hover:shadow-xl hover:-translate-y-1"
             >
               Buka Katalog Lengkap
             </button>
-            
+
             <button
               onClick={handleDownloadCompro}
               disabled={isDownloading}
-              className="w-full sm:w-auto px-12 py-4 bg-white border-2 border-primary text-primary font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2 hover:-translate-y-1 disabled:opacity-70 disabled:cursor-wait"
+              className="w-full sm:w-auto px-12 py-4 bg-white border-2 border-primary text-primary font-bold text-sm uppercase tracking-[0.2em] rounded-sm hover:bg-slate-50 transition-all flex items-center justify-center gap-2 hover:-translate-y-1 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
             >
               {isDownloading ? (
                 <>
