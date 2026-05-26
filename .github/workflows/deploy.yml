@@ -3,27 +3,31 @@ name: Build and Deploy FE
 on:
   push:
     branches:
-      - main  # Pastikan ini nama branch utama lu
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./  # Root repo sudah di folder FE jika push dari sini
+
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4 # Update ke v4 biar up-to-date
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Update ke v4
+        uses: actions/setup-node@v4
         with:
-          node-version: '22' # Pakai Node 22 agar tidak kena warning deprecated
+          node-version: '22'
+          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build Project
-        run: |
-          CI=false npm run build # Ditambahkan CI=false agar build tidak gagal karena unused variable
+        run: CI=false npm run build
         env:
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
           VITE_OFFICE_WHATSAPP: ${{ secrets.VITE_OFFICE_WHATSAPP }}
@@ -32,12 +36,41 @@ jobs:
           VITE_PHONE_YUANITA: ${{ secrets.VITE_PHONE_YUANITA }}
           VITE_PHONE_DARUS: ${{ secrets.VITE_PHONE_DARUS }}
 
-      - name: Deploy via Secure HTTPS POST
+      - name: Verify Build Output
+        run: |
+          echo "=== Isi folder dist/ ==="
+          ls -la dist/
+          echo "=== Cek index.html ada ==="
+          test -f dist/index.html && echo "index.html OK" || (echo "ERROR: index.html tidak ada!" && exit 1)
+
+      - name: Zip Build Output
         run: |
           cd dist
           zip -r ../deploy.zip .
           cd ..
-          curl -X POST \
-            -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN || 'sanita_akses_nusantara_deploy_2026' }}" \
+          echo "=== Ukuran zip ==="
+          ls -lh deploy.zip
+
+      - name: Deploy via Secure HTTPS POST to cPanel
+        run: |
+          echo "=== Mulai deploy ke sanitaaksesnusantara.com ==="
+          RESPONSE=$(curl --fail --silent --show-error \
+            --max-time 120 \
+            -w "\n%{http_code}" \
+            -X POST \
+            -H "X-Deploy-Token: ${{ secrets.DEPLOY_TOKEN }}" \
             -F "file=@deploy.zip" \
-            https://sanitaaksesnusantara.com/deploy.php
+            https://sanitaaksesnusantara.com/deploy.php)
+
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+
+          echo "HTTP Status: $HTTP_CODE"
+          echo "Response Body: $BODY"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "❌ Deploy GAGAL! HTTP Code: $HTTP_CODE"
+            exit 1
+          fi
+
+          echo "✅ Deploy BERHASIL!"
