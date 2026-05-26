@@ -54,7 +54,7 @@ jobs:
       - name: Deploy via Secure HTTPS POST to cPanel
         run: |
           echo "=== Mulai deploy ke sanitaaksesnusantara.com ==="
-          RESPONSE=$(curl --fail --silent --show-error \
+          RESPONSE=$(curl --silent --show-error \
             --max-time 120 \
             -w "\n%{http_code}" \
             -X POST \
@@ -68,9 +68,26 @@ jobs:
           echo "HTTP Status: $HTTP_CODE"
           echo "Response Body: $BODY"
 
+          # Pastikan response adalah JSON bukan HTML (cek apakah deploy.php dieksekusi)
+          if echo "$BODY" | grep -q "<!doctype html\|<html"; then
+            echo "❌ Deploy GAGAL! Server mengembalikan HTML bukan JSON."
+            echo "   Kemungkinan penyebab:"
+            echo "   1. File deploy.php belum ada di public_html/ cPanel"
+            echo "   2. .htaccess redirect ke index.html"
+            echo "   Solusi: Upload deploy.php ke public_html/ cPanel secara manual."
+            exit 1
+          fi
+
           if [ "$HTTP_CODE" != "200" ]; then
             echo "❌ Deploy GAGAL! HTTP Code: $HTTP_CODE"
             exit 1
           fi
 
-          echo "✅ Deploy BERHASIL!"
+          # Cek JSON response success field
+          if echo "$BODY" | grep -q '"success":true'; then
+            echo "✅ Deploy BERHASIL! Website sudah diperbarui."
+          else
+            echo "❌ Deploy GAGAL! Response tidak mengandung success:true"
+            echo "Response: $BODY"
+            exit 1
+          fi
